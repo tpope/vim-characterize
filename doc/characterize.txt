@@ -1,0 +1,19 @@
+*characterize.txt*  Unicode character metadata
+
+Author:  Tim Pope <http://tpo.pe/>
+Repo:    https://github.com/tpope/vim-characterize
+License: Same terms as Vim itself (see |license|)
+
+This plugin is only available if 'compatible' is not set.
+
+SUMMARY                                         *characterize*
+
+Provides one map.
+
+                                                *characterize-ga*
+ga                      Print the unicode value of the character under the
+                        cursor in decimal, hexadecimal and octal, along with
+                        the unicode name, HTML entity, Emoji code, and any
+                        available |digraphs|.
+
+ vim:tw=78:et:ft=help:norl:
