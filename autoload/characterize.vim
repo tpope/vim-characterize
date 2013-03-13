@@ -15,7 +15,7 @@ function! characterize#digraphs(...) abort
   redraw
   let digraphs = {}
   for line in split(out, '\n')
-    for entry in split(line, " \\d\\+\\zs\\s\\+")
+    for entry in split(line, " \\d\\+\\zs\\s*")
       let nr = matchstr(entry, '\d\+$')
       if nr ==# '10' && len(digraphs) <= 1
         let nr = 0
