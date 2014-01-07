@@ -1,6 +1,8 @@
 " autoload/characterize.vim
 " Maintainer:   Tim Pope <http://tpo.pe/>
 
+unlet! s:digraphs
+
 if exists("g:autoloaded_characterize") || &cp
   finish
 endif
@@ -9,24 +11,26 @@ let g:autoloaded_characterize = 1
 scriptencoding utf-8
 
 function! characterize#digraphs(...) abort
-  redir => out
-  silent digraphs
-  redir END
-  redraw
-  let digraphs = {}
-  for line in split(out, '\n')
-    for entry in split(line, " \\d\\+\\zs\\s*")
-      let nr = matchstr(entry, '\d\+$')
-      if nr ==# '10' && len(digraphs) <= 1
-        let nr = 0
-      endif
-      if !has_key(digraphs, nr)
-        let digraphs[nr] = []
-      endif
-      let digraphs[nr] += [matchstr(entry, '^..')]
+  if !exists('s:digraphs')
+    redir => out
+    silent digraphs
+    redir END
+    redraw
+    let s:digraphs = {}
+    for line in split(out, '\n')
+      for entry in split(line, " \\d\\+\\zs\\s*")
+        let nr = matchstr(entry, '\d\+$')
+        if nr ==# '10' && len(s:digraphs) <= 1
+          let nr = 0
+        endif
+        if !has_key(s:digraphs, nr)
+          let s:digraphs[nr] = []
+        endif
+        let s:digraphs[nr] += [matchstr(entry, '^..')]
+      endfor
     endfor
-  endfor
-  return a:0 ? get(digraphs, a:1, []) : digraphs
+  endif
+  return a:0 ? get(s:digraphs, a:1, []) : s:digraphs
 endfunction
 
 function! characterize#html_entity(nr) abort
