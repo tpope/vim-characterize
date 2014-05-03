@@ -38,6 +38,9 @@ function! s:info(char)
   return join(outs, ' ')
 endfunction
 
-nmap <silent><script> ga :<C-U>echo <SID>info(matchstr(getline('.')[col('.')-1:-1],'.'))<CR>
+nnoremap <silent><script> <Plug>(characterize) :<C-U>echo <SID>info(matchstr(getline('.')[col('.')-1:-1],'.'))<CR>
+if !hasmapto('<Plug>(characterize)', 'n')
+  nmap ga <Plug>(characterize)
+endif
 
 " vim:set sw=2 et:
