@@ -16,7 +16,7 @@ function! s:info(char)
   while !empty(charseq)
     let nr = charseq ==# "\n" ? 0 : char2nr(charseq)
     let char = nr < 32 ? '^'.nr2char(64 + nr) : nr2char(nr)
-    let charseq = strpart(charseq, len(nr2char(nr)))
+    let charseq = strpart(charseq, nr ? len(nr2char(nr)) : 1)
     let out = '<' . (empty(outs) ? '' : ' ') . char . '> ' . nr
     if nr < 256
       let out .= printf(', \%03o', nr)
