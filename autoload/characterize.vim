@@ -907,8 +907,30 @@ let s:emojis = {
       \ }
 
 function! characterize#description(nr, ...) abort
+  for [first, last, name] in s:ranges
+    if a:nr > first && a:nr < last
+      return name
+    endif
+  endfor
   return get(s:d, a:nr, a:0 ? a:1 : '')
 endfunction
+
+" [First, Last, Name] ranges from the main table
+let s:ranges = [
+      \ [0x3400, 0x4DB5, '<CJK Ideograph Extension A>'],
+      \ [0x4E00, 0x9FD5, '<CJK Ideograph>'],
+      \ [0xAC00, 0xD7A3, '<Hangul Syllable>'],
+      \ [0xD800, 0xDB7F, '<Non Private Use High Surrogate>'],
+      \ [0xDB80, 0xDBFF, '<Private Use High Surrogate>'],
+      \ [0xDC00, 0xDFFF, '<Low Surrogate>'],
+      \ [0xE000, 0xF8FF, '<Private Use>'],
+      \ [0x20000, 0x2A6D6, '<CJK Ideograph Extension B>'],
+      \ [0x2A700, 0x2B734, '<CJK Ideograph Extension C>'],
+      \ [0x2B740, 0x2B81D, '<CJK Ideograph Extension D>'],
+      \ [0x2B820, 0x2CEA1, '<CJK Ideograph Extension E>'],
+      \ [0xF0000, 0xFFFFD, '<Plane 15 Private Use>'],
+      \ [0x100000, 0x10FFFD, '<Plane 16 Private Use>'],
+      \ ]
 
 let s:d = {}
 
