@@ -1,6 +1,14 @@
 # Transform UnicodeData.txt for characterize.vim
 
-BEGIN { FS=";" }
+# Usage:
+#     wget http://www.unicode.org/Public/10.0.0/ucd/UnicodeData.txt
+#     awk -f unicode.awk < UnicodeData.txt >> characterize.vim
+# Delete the old dictionary
+
+BEGIN {
+    FS=";"
+    printf "\n\" Unicode data dictionary\n"
+}
 
 {
     code = $1
