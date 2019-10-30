@@ -915,24 +915,6 @@ function! characterize#description(nr, ...) abort
   return get(s:d, a:nr, a:0 ? a:1 : '')
 endfunction
 
-" [First, Last, Name] ranges from the main table
-let s:ranges = [
-      \ [0x3400, 0x4DB5, '<CJK Ideograph Extension A>'],
-      \ [0x4E00, 0x9FD5, '<CJK Ideograph>'],
-      \ [0xAC00, 0xD7A3, '<Hangul Syllable>'],
-      \ [0xD800, 0xDB7F, '<Non Private Use High Surrogate>'],
-      \ [0xDB80, 0xDBFF, '<Private Use High Surrogate>'],
-      \ [0xDC00, 0xDFFF, '<Low Surrogate>'],
-      \ [0xE000, 0xF8FF, '<Private Use>'],
-      \ [0x17000, 0x187EC, '<Tangut Ideograph>'],
-      \ [0x20000, 0x2A6D6, '<CJK Ideograph Extension B>'],
-      \ [0x2A700, 0x2B734, '<CJK Ideograph Extension C>'],
-      \ [0x2B740, 0x2B81D, '<CJK Ideograph Extension D>'],
-      \ [0x2B820, 0x2CEA1, '<CJK Ideograph Extension E>'],
-      \ [0xF0000, 0xFFFFD, '<Plane 15 Private Use>'],
-      \ [0x100000, 0x10FFFD, '<Plane 16 Private Use>'],
-      \ ]
-
 let s:d = {}
 
 let s:d[0x0000]='NULL'
@@ -12904,8 +12886,6 @@ let s:d[0x33FC]='IDEOGRAPHIC TELEGRAPH SYMBOL FOR DAY TWENTY-NINE'
 let s:d[0x33FD]='IDEOGRAPHIC TELEGRAPH SYMBOL FOR DAY THIRTY'
 let s:d[0x33FE]='IDEOGRAPHIC TELEGRAPH SYMBOL FOR DAY THIRTY-ONE'
 let s:d[0x33FF]='SQUARE GAL'
-let s:d[0x3400]='<CJK Ideograph Extension A, First>'
-let s:d[0x4DB5]='<CJK Ideograph Extension A, Last>'
 let s:d[0x4DC0]='HEXAGRAM FOR THE CREATIVE HEAVEN'
 let s:d[0x4DC1]='HEXAGRAM FOR THE RECEPTIVE EARTH'
 let s:d[0x4DC2]='HEXAGRAM FOR DIFFICULTY AT THE BEGINNING'
@@ -12970,8 +12950,6 @@ let s:d[0x4DFC]='HEXAGRAM FOR INNER TRUTH'
 let s:d[0x4DFD]='HEXAGRAM FOR SMALL PREPONDERANCE'
 let s:d[0x4DFE]='HEXAGRAM FOR AFTER COMPLETION'
 let s:d[0x4DFF]='HEXAGRAM FOR BEFORE COMPLETION'
-let s:d[0x4E00]='<CJK Ideograph, First>'
-let s:d[0x9FD5]='<CJK Ideograph, Last>'
 let s:d[0xA000]='YI SYLLABLE IT'
 let s:d[0xA001]='YI SYLLABLE IX'
 let s:d[0xA002]='YI SYLLABLE I'
@@ -15805,8 +15783,6 @@ let s:d[0xABF6]='MEETEI MAYEK DIGIT SIX'
 let s:d[0xABF7]='MEETEI MAYEK DIGIT SEVEN'
 let s:d[0xABF8]='MEETEI MAYEK DIGIT EIGHT'
 let s:d[0xABF9]='MEETEI MAYEK DIGIT NINE'
-let s:d[0xAC00]='<Hangul Syllable, First>'
-let s:d[0xD7A3]='<Hangul Syllable, Last>'
 let s:d[0xD7B0]='HANGUL JUNGSEONG O-YEO'
 let s:d[0xD7B1]='HANGUL JUNGSEONG O-O-I'
 let s:d[0xD7B2]='HANGUL JUNGSEONG YO-A'
@@ -15879,14 +15855,6 @@ let s:d[0xD7F8]='HANGUL JONGSEONG CIEUC-SSANGPIEUP'
 let s:d[0xD7F9]='HANGUL JONGSEONG SSANGCIEUC'
 let s:d[0xD7FA]='HANGUL JONGSEONG PHIEUPH-SIOS'
 let s:d[0xD7FB]='HANGUL JONGSEONG PHIEUPH-THIEUTH'
-let s:d[0xD800]='<Non Private Use High Surrogate, First>'
-let s:d[0xDB7F]='<Non Private Use High Surrogate, Last>'
-let s:d[0xDB80]='<Private Use High Surrogate, First>'
-let s:d[0xDBFF]='<Private Use High Surrogate, Last>'
-let s:d[0xDC00]='<Low Surrogate, First>'
-let s:d[0xDFFF]='<Low Surrogate, Last>'
-let s:d[0xE000]='<Private Use, First>'
-let s:d[0xF8FF]='<Private Use, Last>'
 let s:d[0xF900]='CJK COMPATIBILITY IDEOGRAPH-F900'
 let s:d[0xF901]='CJK COMPATIBILITY IDEOGRAPH-F901'
 let s:d[0xF902]='CJK COMPATIBILITY IDEOGRAPH-F902'
@@ -25075,8 +25043,6 @@ let s:d[0x16F9D]='MIAO LETTER REFORMED TONE-5'
 let s:d[0x16F9E]='MIAO LETTER REFORMED TONE-6'
 let s:d[0x16F9F]='MIAO LETTER REFORMED TONE-8'
 let s:d[0x16FE0]='TANGUT ITERATION MARK'
-let s:d[0x17000]='<Tangut Ideograph, First>'
-let s:d[0x187EC]='<Tangut Ideograph, Last>'
 let s:d[0x18800]='TANGUT COMPONENT-001'
 let s:d[0x18801]='TANGUT COMPONENT-002'
 let s:d[0x18802]='TANGUT COMPONENT-003'
@@ -30713,14 +30679,6 @@ let s:d[0x1F991]='SQUID'
 let s:d[0x1F9C0]='CHEESE WEDGE'
 let s:d[0x1FFFE]='<not a character>'
 let s:d[0x1FFFF]='<not a character>'
-let s:d[0x20000]='<CJK Ideograph Extension B, First>'
-let s:d[0x2A6D6]='<CJK Ideograph Extension B, Last>'
-let s:d[0x2A700]='<CJK Ideograph Extension C, First>'
-let s:d[0x2B734]='<CJK Ideograph Extension C, Last>'
-let s:d[0x2B740]='<CJK Ideograph Extension D, First>'
-let s:d[0x2B81D]='<CJK Ideograph Extension D, Last>'
-let s:d[0x2B820]='<CJK Ideograph Extension E, First>'
-let s:d[0x2CEA1]='<CJK Ideograph Extension E, Last>'
 let s:d[0x2F800]='CJK COMPATIBILITY IDEOGRAPH-2F800'
 let s:d[0x2F801]='CJK COMPATIBILITY IDEOGRAPH-2F801'
 let s:d[0x2F802]='CJK COMPATIBILITY IDEOGRAPH-2F802'
@@ -31626,11 +31584,24 @@ let s:d[0xE01EE]='VARIATION SELECTOR-255'
 let s:d[0xE01EF]='VARIATION SELECTOR-256'
 let s:d[0xEFFFE]='<not a character>'
 let s:d[0xEFFFF]='<not a character>'
-let s:d[0xF0000]='<Plane 15 Private Use, First>'
-let s:d[0xFFFFD]='<Plane 15 Private Use, Last>'
 let s:d[0xFFFFE]='<not a character>'
 let s:d[0xFFFFF]='<not a character>'
-let s:d[0x100000]='<Plane 16 Private Use, First>'
-let s:d[0x10FFFD]='<Plane 16 Private Use, Last>'
 let s:d[0x10FFFE]='<not a character>'
 let s:d[0x10FFFF]='<not a character>'
+
+let s:ranges = [
+      \ [0x3400, 0x4DB5, '<CJK Ideograph Extension A>'],
+      \ [0x4E00, 0x9FD5, '<CJK Ideograph>'],
+      \ [0xAC00, 0xD7A3, '<Hangul Syllable>'],
+      \ [0xD800, 0xDB7F, '<Non Private Use High Surrogate>'],
+      \ [0xDB80, 0xDBFF, '<Private Use High Surrogate>'],
+      \ [0xDC00, 0xDFFF, '<Low Surrogate>'],
+      \ [0xE000, 0xF8FF, '<Private Use>'],
+      \ [0x17000, 0x187EC, '<Tangut Ideograph>'],
+      \ [0x20000, 0x2A6D6, '<CJK Ideograph Extension B>'],
+      \ [0x2A700, 0x2B734, '<CJK Ideograph Extension C>'],
+      \ [0x2B740, 0x2B81D, '<CJK Ideograph Extension D>'],
+      \ [0x2B820, 0x2CEA1, '<CJK Ideograph Extension E>'],
+      \ [0xF0000, 0xFFFFD, '<Plane 15 Private Use>'],
+      \ [0x100000, 0x10FFFD, '<Plane 16 Private Use>'],
+      \ ]
