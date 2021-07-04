@@ -8,7 +8,7 @@ old = File.read('autoload/characterize.vim')[/.*?\nlet s:d = {}\n*/m]
 File.open('autoload/characterize.vim', 'w') do |out|
   out.write old
 
-  open(ARGV.first || 'https://unicode.org/Public/UNIDATA/UnicodeData.txt') do |f|
+  URI.open(ARGV.first || 'https://unicode.org/Public/UNIDATA/UnicodeData.txt') do |f|
     f.each_line do |l|
       code, name, cat, ccc, bc, cdm, ddv, dv, nv, m, u1name, comment, ucase, lcase, tcase = *l.chomp.split(';', 15)
       if name =~ /<(.*), First>/
