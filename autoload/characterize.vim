@@ -42,6 +42,19 @@ function! characterize#html_entity(nr) abort
   endif
 endfunction
 
+function! characterize#emojis(...) abort
+  return a:0 ? get(s:emojis, a:1, []) : s:emojis
+endfunction
+
+function! characterize#description(nr, ...) abort
+  for [first, last, name] in s:ranges
+    if a:nr > first && a:nr < last
+      return name
+    endif
+  endfor
+  return get(s:d, a:nr, a:0 ? a:1 : '')
+endfunction
+
 let s:html_entities = {
       \  160:    'nbsp',  161:   'iexcl',  162:    'cent',  163:   'pound',
       \  164:  'curren',  165:     'yen',  166:  'brvbar',  167:    'sect',
@@ -106,10 +119,6 @@ let s:html_entities = {
       \ 8971:  'rfloor', 9001:    'lang', 9002:    'rang', 9674:     'loz',
       \ 9824:  'spades', 9827:   'clubs', 9829:  'hearts', 9830:   'diams',
       \   38:     'amp',   39:    'apos',   60:      'lt',   62:      'gt'}
-
-function! characterize#emojis(...) abort
-  return a:0 ? get(s:emojis, a:1, []) : s:emojis
-endfunction
 
 let s:emojis = {
       \ 0x00a9: [':copyright:'],
@@ -905,15 +914,6 @@ let s:emojis = {
       \ 0x1f6c4: [':baggage_claim:'],
       \ 0x1f6c5: [':left_luggage:'],
       \ }
-
-function! characterize#description(nr, ...) abort
-  for [first, last, name] in s:ranges
-    if a:nr > first && a:nr < last
-      return name
-    endif
-  endfor
-  return get(s:d, a:nr, a:0 ? a:1 : '')
-endfunction
 
 let s:d = {}
 
