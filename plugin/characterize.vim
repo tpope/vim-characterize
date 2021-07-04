@@ -1,6 +1,7 @@
 " characterize.vim - Unicode character metadata
 " Maintainer:   Tim Pope
 " Version:      1.0
+" GetLatestVimScripts: 4410 1 :AutoInstall: characterize.vim
 
 if exists("g:loaded_characterize") || v:version < 700 || &cp
   finish
