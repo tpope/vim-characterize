@@ -25,7 +25,7 @@ function! s:info(char) abort
     let out .= printf(', U+%04X', nr)
     let out .= ' '.characterize#description(nr, '<unknown>')
     for digraph in characterize#digraphs(nr)
-      let out .= ", \<C-K>".digraph
+      let out .= ", <C-K>".digraph
     endfor
     for emoji in characterize#emojis(nr)
       let out .= ', '.emoji
