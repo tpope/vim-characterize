@@ -14,6 +14,7 @@ function! s:info(char) abort
   endif
   let charseq = a:char
   let outs = []
+  let entityC1 = 0
   while !empty(charseq)
     let nr = charseq ==# "\n" ? 0 : charseq ==# "\r" && &fileformat ==# 'mac' ? 10 : char2nr(charseq)
     let char = nr < 32 ? '^'.nr2char(64 + nr) : nr2char(nr)
@@ -30,9 +31,27 @@ function! s:info(char) abort
     for emoji in characterize#emojis(nr)
       let out .= ', '.emoji
     endfor
-    let entity = characterize#html_entity(nr)
-    if !empty(entity)
-      let out .= ', '.entity
+    " byteidxcomp({expr}, 2) tests for a composing character: where -1 is
+    " returned it means there is no composing character. For the 64 HTML5 named
+    " character references that are comprised of characters plus composing
+    " characters, this is needed to ensure that the character *and* the
+    " composing character are passed to characterize#html_entity, not just the
+    " first character.  An example is <⃒ &nvlt; &#60;&#8402;.
+    if byteidxcomp(matchstr(getline('.')[col('.')-1:-1],'.'), 2) == -1
+      let entity = characterize#html_entity(nr)
+      if !empty(entity)
+        let out .= ', '.entity
+      endif
+    else
+      if entityC1 == 0
+        let entityC1 = nr
+      else
+        let entity = characterize#html_entity(entityC1 . '.' . nr)
+        if !empty(entity)
+          let out .= ', '.entity
+        endif
+        let entityC1 = 0
+      endif
     endif
     call add(outs, out)
   endwhile
