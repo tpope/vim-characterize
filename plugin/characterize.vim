@@ -14,7 +14,6 @@ function! s:info(char) abort
   endif
   let charseq = a:char
   let outs = []
-  " let entityC1 = 0
   while !empty(charseq)
     let nr = charseq ==# "\n" ? 0 : charseq ==# "\r" && &fileformat ==# 'mac' ? 10 : char2nr(charseq)
     let char = nr < 32 ? '^'.nr2char(64 + nr) : nr2char(nr)
@@ -33,7 +32,7 @@ function! s:info(char) abort
     endfor
     call add(outs, out)
   endwhile
-  let entity = characterize#html_entity(matchstr(getline('.')[col('.')-1:-1],'.'))
+  let entity = characterize#html_entity(a:char)
   if !empty(entity)
     let out .= ', '.entity
   endif
