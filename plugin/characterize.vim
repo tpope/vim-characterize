@@ -14,11 +14,13 @@ function! s:info(char) abort
   endif
   let charseq = a:char
   let outs = []
+  let out = ""
   while !empty(charseq)
     let nr = charseq ==# "\n" ? 0 : charseq ==# "\r" && &fileformat ==# 'mac' ? 10 : char2nr(charseq)
     let char = nr < 32 ? '^'.nr2char(64 + nr) : nr2char(nr)
     let charseq = strpart(charseq, nr ? len(nr2char(nr)) : 1)
-    let out = '<' . (empty(outs) ? '' : ' ') . char . '> ' . nr
+    let out .= empty(out) ? '' : ' '
+    let out .= '<' . (empty(outs) ? '' : ' ') . char . '> ' . nr
     if nr < 256
       let out .= printf(', \%03o', nr)
     endif
@@ -30,11 +32,14 @@ function! s:info(char) abort
     for emoji in characterize#emojis(nr)
       let out .= ', '.emoji
     endfor
-    call add(outs, out)
   endwhile
-  let entity = characterize#html_entity(a:char)
-  if !empty(entity)
-    let out .= ', '.entity
+  if strchars(a:char) == 1
+    let entities = characterize#html_entities(printf("U+%04X", char2nr(a:char)))
+  elseif strchars(a:char) == 2
+    let entities = characterize#html_entities(printf("U+%04X", char2nr(a:char)) .. " " .. printf("U+%04X", char2nr(strcharpart(a:char, 1))))
+  endif
+  if !empty(entities)
+    let out .= ', '.entities
   endif
   call add(outs, out)
   return join(outs, ' ')
