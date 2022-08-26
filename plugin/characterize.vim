@@ -33,11 +33,7 @@ function! s:info(char) abort
       let out .= ', '.emoji
     endfor
   endwhile
-  if strchars(a:char) == 1
-    let entities = characterize#html_entities(printf("U+%04X", char2nr(a:char)))
-  elseif strchars(a:char) == 2
-    let entities = characterize#html_entities(printf("U+%04X", char2nr(a:char)) .. " " .. printf("U+%04X", char2nr(strcharpart(a:char, 1))))
-  endif
+  let entities = characterize#html_entities(a:char)
   if !empty(entities)
     let out .= ', '.entities
   endif
