@@ -30,13 +30,17 @@ function! s:info(char) abort
     for emoji in characterize#emojis(nr)
       let out .= ', '.emoji
     endfor
-    let entity = characterize#html_entity(nr)
-    if !empty(entity)
-      let out .= ', '.entity
-    endif
     call add(outs, out)
   endwhile
-  return join(outs, ' ')
+  let str = join(outs, ' ')
+  let entities = characterize#html_entities(a:char)
+  if empty(entities)
+    return str
+  elseif len(outs) == 1
+    return str . ', ' . entities
+  else
+    return str . ' | ' . entities
+  endif
 endfunction
 
 nnoremap <silent><script> <Plug>(characterize) :<C-U>echo <SID>info(matchstr(getline('.')[col('.')-1:-1],'.'))<CR>
