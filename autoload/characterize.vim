@@ -48,7 +48,7 @@ endfunction
 
 function! characterize#description(nr, ...) abort
   for [first, last, name] in s:ranges
-    if a:nr > first && a:nr < last
+    if a:nr >= first && a:nr <= last
       return name
     endif
   endfor
