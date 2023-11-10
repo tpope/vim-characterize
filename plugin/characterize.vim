@@ -8,14 +8,35 @@ if exists("g:loaded_characterize") || v:version < 700 || &cp
 endif
 let g:loaded_characterize = 1
 
-function! s:info(char) abort
-  if empty(a:char)
+function! s:info(arg) abort
+  let char = a:arg
+  let nl_is_null = 0
+  if empty(char)
+    let char = getline('.')[col('.')-1:-1]
+    let nl_is_null = 1
+  elseif char =~# '^\\[xuU]\=0\+\x\@!'
+    let char = "\n"
+    let nl_is_null = 1
+  elseif char =~# '^\\.'
+    try
+      let char = eval('"' . char . '"')
+    catch
+    endtry
+  endif
+  let char = matchstr(char, '.')
+  if empty(char)
     return 'NUL'
   endif
-  let charseq = a:char
+  let charseq = char
   let outs = []
   while !empty(charseq)
-    let nr = charseq ==# "\n" ? 0 : charseq ==# "\r" && &fileformat ==# 'mac' ? 10 : char2nr(charseq)
+    if nl_is_null && charseq =~# "^\n"
+      let nr = 0
+    elseif nl_is_null && charseq =~# "^\r" && &fileformat ==# 'mac'
+      let nr = 10
+    else
+      let nr = char2nr(charseq)
+    endif
     let char = nr < 32 ? '^'.nr2char(64 + nr) : nr2char(nr)
     let charseq = strpart(charseq, nr ? len(nr2char(nr)) : 1)
     let out = '<' . (empty(outs) ? '' : ' ') . char . '> ' . nr
@@ -33,7 +54,7 @@ function! s:info(char) abort
     call add(outs, out)
   endwhile
   let str = join(outs, ' ')
-  let entities = characterize#html_entities(a:char)
+  let entities = characterize#html_entities(char)
   if empty(entities)
     return str
   elseif len(outs) == 1
@@ -43,7 +64,9 @@ function! s:info(char) abort
   endif
 endfunction
 
-nnoremap <silent><script> <Plug>(characterize) :<C-U>echo <SID>info(matchstr(getline('.')[col('.')-1:-1],'.'))<CR>
+command! -bar -nargs=? Characterize echo <SID>info(<q-args>)
+
+nnoremap <silent><script> <Plug>(characterize) :<C-U>Characterize<CR>
 if !hasmapto('<Plug>(characterize)', 'n') && mapcheck('ga', 'n') ==# ''
   nmap ga <Plug>(characterize)
 endif
