@@ -51,6 +51,9 @@ function! s:info(arg) abort
     for emoji in characterize#emojis(nr)
       let out .= ', '.emoji
     endfor
+    for nerdicon in characterize#nerdfonts(nr)
+      let out .= ', '.nerdicon
+    endfor
     call add(outs, out)
   endwhile
   let str = join(outs, ' ')
