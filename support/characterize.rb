@@ -24,15 +24,17 @@ File.open('autoload/characterize.vim', 'w') do |out|
   out.puts "      \\ }"
   out.puts
 
-  out.puts 'let s:nerdfonts = {'
   nerdfonts = Hash.new { |h, k| h[k] = [] }
-  URI.open(ARGV.first || 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/css/nerd-fonts-generated.css') do |f|
-    f.read.scan(/\.([\w-]*):before {\s*content: "\\(\w*)";\s*}/) { |classname,codepoint|
-      nerdfonts[codepoint] << classname
-    }
-    nerdfonts.sort_by { |(k, v)| k.to_i(16) }.each do |(code, names)|
-      out.puts "      \\ 0x#{code}: [" + names.map { |n| "'#{n}'" }.join(', ') + '],'
+  URI.open(ARGV[1] || 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/glyphnames.json') do |f|
+    JSON.parse(f.read).each do |(name, subkey)|
+      code = subkey['code']
+      next unless code
+      nerdfonts[code] << "nf-#{name}"
     end
+  end
+  out.puts 'let s:nerdfonts = {'
+  nerdfonts.sort_by { |(k, v)| k.to_i(16) }.each do |(code, names)|
+    out.puts "      \\ 0x#{code}: [" + names.map { |n| "'#{n}'" }.join(', ') + '],'
   end
   out.puts "      \\ }"
   out.puts
