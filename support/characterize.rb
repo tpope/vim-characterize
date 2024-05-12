@@ -24,6 +24,21 @@ File.open('autoload/characterize.vim', 'w') do |out|
   out.puts "      \\ }"
   out.puts
 
+  nerdfonts = Hash.new { |h, k| h[k] = [] }
+  URI.open(ARGV[1] || 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/glyphnames.json') do |f|
+    JSON.parse(f.read).each do |(name, subkey)|
+      code = subkey['code']
+      next unless code
+      nerdfonts[code] << "nf-#{name}"
+    end
+  end
+  out.puts 'let s:nerdfonts = {'
+  nerdfonts.sort_by { |(k, v)| k.to_i(16) }.each do |(code, names)|
+    out.puts "      \\ 0x#{code}: [" + names.map { |n| "'#{n}'" }.join(', ') + '],'
+  end
+  out.puts "      \\ }"
+  out.puts
+
   out.puts "let s:d = {}"
   out.puts
   URI.open(ARGV.first || 'https://unicode.org/Public/UNIDATA/UnicodeData.txt') do |f|
